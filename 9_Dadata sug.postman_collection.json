@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "fbb84b5a-8d1f-4f06-8913-c822beb10f0a",
+		"name": "9_Dadata sug",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Тесты на JSON",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Распарсили JSON",
+							"var jsonData = pm.response.json();",
+							"//pm.globals.set(\"API_TOKEN_SUG_DADATA\", \"793d2830a6360a1569c8e7b9dd1afeb2f57ffa77\");",
+							"//console.log(pm.variables.get(\"API_TOKEN_SUG_DADATA\"));",
+							"// Отладочный тест",
+							"pm.test(\"Пол правда женский у Анны!\", function () {",
+							"    pm.expect(jsonData.suggestions[0].data.gender).to.eql(\"FEMALE\");",
+							"});",
+							"",
+							"// Проверяем подсказки всех элементов массива",
+							"for (i = 0; i < jsonData.suggestions.length; i++) {",
+							"    pm.test(\"Пол правда женский! Подсказка № \" + i, function () {",
+							"    pm.expect(jsonData.suggestions[i].data.gender).to.eql(\"FEMALE\");",
+							"});",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{API_TOKEN_SUG_DADATA}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<req>\r\n    <query>Ан</query>\r\n    <gender>FEMALE</gender>\r\n</req>\r\n"
+				},
+				"url": {
+					"raw": "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/fio",
+					"protocol": "https",
+					"host": [
+						"suggestions",
+						"dadata",
+						"ru"
+					],
+					"path": [
+						"suggestions",
+						"api",
+						"4_1",
+						"rs",
+						"suggest",
+						"fio"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
